@@ -1,6 +1,5 @@
-import mysql from 'mysql2';
-import dotenv from 'dotenv';
-import faker from 'faker';
+const mysql = require('mysql2');
+const dotenv = require('dotenv');
 dotenv.config();
 
 // async function createDb() {
@@ -27,13 +26,13 @@ function createTables() {
         var createUsersTableQuery = "CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT ,  name VARCHAR(255) NOT NULL ,username VARCHAR(255) NOT NULL,email VARCHAR(255) NOT NULL,street VARCHAR(255),city VARCHAR(255),zipcode VARCHAR(255),phone VARCHAR(255),companyName VARCHAR(255),PRIMARY KEY(id,name))";
         con.query(createUsersTableQuery, function (err, result) {
             if (err) throw err;
-            console.log("Table created!");
+            console.log("Table users created!");
         });
         //create todos table
         var createTodosTableQuery = "CREATE TABLE IF NOT EXISTS todos ( userId INT NOT NULL,id INT NOT NULL,title VARCHAR(255) NOT NULL,completed BOOLEAN NOT NULL,PRIMARY KEY (id) )";
         con.query(createTodosTableQuery, function (err, result) {
             if (err) throw err;
-            console.log("Table created!");
+            console.log("Table todos created!");
         });
         //create comments table
         var createCommentsTableQuery = "CREATE TABLE IF NOT EXISTS comments (postId INT NOT NULL, id INT NOT NULL, name VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL,body TEXT NOT NULL,PRIMARY KEY (id))";
@@ -254,35 +253,35 @@ const commentsData = [
 ];
 const todosData = [
     { userId: 1, id: 1, title: "delectus aut autem", completed: false },
-    { userId: 1, id: 2, title: "quis ut nam facilis et officia qui", completed: false },
-    { userId: 1, id: 3, title: "fugiat veniam minus", completed: false },
-    { userId: 1, id: 4, title: "et porro tempora", completed: true },
-    { userId: 1, id: 5, title: "laboriosam mollitia et enim quasi adipisci quia provident illum", completed: false },
-    { userId: 1, id: 6, title: "qui ullam ratione quibusdam voluptatem quia omnis", completed: false },
-    { userId: 1, id: 7, title: "illo expedita consequatur quia in", completed: false },
-    { userId: 1, id: 8, title: "quo adipisci enim quam ut ab", completed: true },
-    { userId: 1, id: 9, title: "molestiae perspiciatis ipsa", completed: false },
-    { userId: 1, id: 10, title: "illo est ratione doloremque quia maiores aut", completed: true },
-    { userId: 1, id: 11, title: "vero rerum temporibus dolor", completed: true },
-    { userId: 1, id: 12, title: "ipsa repellendus fugit nisi", completed: true },
-    { userId: 1, id: 13, title: "et doloremque nulla", completed: false },
-    { userId: 1, id: 14, title: "repellendus sunt dolores architecto voluptatum", completed: true },
-    { userId: 1, id: 15, title: "ab voluptatum amet voluptas", completed: true },
-    { userId: 1, id: 16, title: "accusamus eos facilis sint et aut voluptatem", completed: true },
-    { userId: 1, id: 17, title: "quo laboriosam deleniti aut qui", completed: true },
-    { userId: 1, id: 18, title: "dolorum est consequatur ea mollitia in culpa", completed: false },
-    { userId: 1, id: 19, title: "molestiae ipsa aut voluptatibus pariatur dolor nihil", completed: true },
-    { userId: 1, id: 20, title: "ullam nobis libero sapiente ad optio sint", completed: true },
-    { userId: 1, id: 21, title: "suscipit repellat esse quibusdam voluptatem incidunt", completed: false },
-    { userId: 1, id: 22, title: "distinctio vitae autem nihil ut molestias quo", completed: true },
-    { userId: 1, id: 23, title: "et itaque necessitatibus maxime molestiae qui quas velit", completed: false },
-    { userId: 1, id: 24, title: "adipisci non ad dicta qui amet quaerat doloribus ea", completed: false },
-    { userId: 1, id: 25, title: "voluptas quo tenetur perspiciatis explicabo natus", completed: true },
-    { userId: 1, id: 26, title: "aliquam aut quasi", completed: true },
-    { userId: 1, id: 27, title: "veritatis pariatur delectus", completed: true },
-    { userId: 1, id: 28, title: "nesciunt totam sit blanditiis sit", completed: false },
-    { userId: 1, id: 29, title: "laborum aut in quam", completed: false },
-    { userId: 1, id: 30, title: "nemo perspiciatis repellat ut dolor libero commodi blanditiis omnis", completed: true }
+    { userId: 2, id: 2, title: "quis ut nam facilis et officia qui", completed: false },
+    { userId: 3, id: 3, title: "fugiat veniam minus", completed: false },
+    { userId: 4, id: 4, title: "et porro tempora", completed: true },
+    { userId: 5, id: 5, title: "laboriosam mollitia et enim quasi adipisci quia provident illum", completed: false },
+    { userId: 6, id: 6, title: "qui ullam ratione quibusdam voluptatem quia omnis", completed: false },
+    { userId: 7, id: 7, title: "illo expedita consequatur quia in", completed: false },
+    { userId: 8, id: 8, title: "quo adipisci enim quam ut ab", completed: true },
+    { userId: 9, id: 9, title: "molestiae perspiciatis ipsa", completed: false },
+    { userId: 10, id: 10, title: "illo est ratione doloremque quia maiores aut", completed: true },
+    { userId: 11, id: 11, title: "vero rerum temporibus dolor", completed: true },
+    { userId: 12, id: 12, title: "ipsa repellendus fugit nisi", completed: true },
+    { userId: 13, id: 13, title: "et doloremque nulla", completed: false },
+    { userId: 14, id: 14, title: "repellendus sunt dolores architecto voluptatum", completed: true },
+    { userId: 15, id: 15, title: "ab voluptatum amet voluptas", completed: true },
+    { userId: 16, id: 16, title: "accusamus eos facilis sint et aut voluptatem", completed: true },
+    { userId: 17, id: 17, title: "quo laboriosam deleniti aut qui", completed: true },
+    { userId: 18, id: 18, title: "dolorum est consequatur ea mollitia in culpa", completed: false },
+    { userId: 19, id: 19, title: "molestiae ipsa aut voluptatibus pariatur dolor nihil", completed: true },
+    { userId: 20, id: 20, title: "ullam nobis libero sapiente ad optio sint", completed: true },
+    { userId: 21, id: 21, title: "suscipit repellat esse quibusdam voluptatem incidunt", completed: false },
+    { userId: 22, id: 22, title: "distinctio vitae autem nihil ut molestias quo", completed: true },
+    { userId: 23, id: 23, title: "et itaque necessitatibus maxime molestiae qui quas velit", completed: false },
+    { userId: 24, id: 24, title: "adipisci non ad dicta qui amet quaerat doloribus ea", completed: false },
+    { userId: 25, id: 25, title: "voluptas quo tenetur perspiciatis explicabo natus", completed: true },
+    { userId: 26, id: 26, title: "aliquam aut quasi", completed: true },
+    { userId: 27, id: 27, title: "veritatis pariatur delectus", completed: true },
+    { userId: 28, id: 28, title: "nesciunt totam sit blanditiis sit", completed: false },
+    { userId: 29, id: 29, title: "laborum aut in quam", completed: false },
+    { userId: 30, id: 30, title: "nemo perspiciatis repellat ut dolor libero commodi blanditiis omnis", completed: true }
   ];
   const usersData = [
     { name: "John Doe", username: "john_doe", email: "john.doe@example.com", street: "123 Main Street", city: "New York", zipcode: "10001", phone: "555-1234", website: "johndoe.com", companyName: "Doe Corp" },
