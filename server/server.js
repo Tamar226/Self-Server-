@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 
-const usersRouter = require('./routes/users.js');
+const usersRouter = require('./routes/users');
 const todosRouter = require('./routes/todos');
 const postsRouter = require('./routes/posts');
 
@@ -9,10 +9,10 @@ const server = express();
 const host = process.env.MYSQL_HOST;
 const port = process.env.PORT;
 
-server.use((req, res, next) => {
-    console.log('before')
-    next();
-})
+// server.use((req, res, next) => {
+//     console.log('before')
+//     next();
+// })
 
 server.use(express.json());
 
