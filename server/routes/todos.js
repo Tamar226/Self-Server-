@@ -28,17 +28,17 @@ router.get('/', async (req, res) => {
 });
 async function getTodoById(todoId) {
     try {
-        const [user] = await con.promise().query('SELECT * FROM todos WHERE id = ?', [todoId]);
-        if (user.length === 0) {
+        const [todo] = await con.promise().query('SELECT * FROM todos WHERE id = ?', [todoId]);
+        if (todo.length === 0) {
             throw new Error(`Todo with ID ${todoId} not found`);
         }
-        return user[0];
+        return todo[0];
     } catch (error) {
         throw error;
     }
 }
 router.get('/:todoId', async (req, res) => {
-    const todoId = req.params.userId;
+    const todoId = req.params.todoId;
     try {
         const todo = await getTodoById(todoId);
         res.send(todo);
@@ -49,7 +49,7 @@ router.get('/:todoId', async (req, res) => {
 });
 async function addTodo(newTodo) {
     try {
-        const result = await con.promise().query(`INSERT INTO todos (userID, id, title,completed) VALUES ('${newTodo.userId}', '${newTodo.id}', '${newTodo.title}','${newTodo.completed}')`);
+        const result = await con.promise().query(`INSERT INTO todos (userID, title,completed) VALUES ('${newTodo.userId}', '${newTodo.title}','${newTodo.completed}')`);
         return result.insertId;
     } catch (error) {
         throw error;
@@ -58,17 +58,16 @@ async function addTodo(newTodo) {
 router.post('/', async (req, res) => {
     const newTodo = req.body;
     try {
-        const userId = await addTodo(newTodo);
-        res.status(201).send(`Todo added with ID: ${userId}`);
+        const todoId = await addTodo(newTodo);
+        res.status(201).send(`Todo added with ID: ${todoId}`);
     } catch (error) {
         console.error('Error adding todo:', error);
         res.status(500).send('Internal Server Error');
     }
 });
-async function updateTodo(userId, updatedUserData) {
+async function updateTodo(todoId, updatedTodoData) {
     try {
-      
-      const result = await con.promise().query('UPDATE users SET ? WHERE id = ?', [updatedUserData, todoId]);
+      const result = await con.promise().query('UPDATE todos SET ? WHERE id = ?', [updatedTodoData, todoId]);
       return result.affectedRows;
     } catch (error) {
         throw error;
@@ -76,7 +75,7 @@ async function updateTodo(userId, updatedUserData) {
   }
   
   router.put('/:todoId', async (req, res) => {
-    const todoId = req.params.userId;
+    const todoId = req.params.todoId;
     const updatedTodoData = req.body;
     try {
       const rowsAffected = await updateTodo(todoId, updatedTodoData);

@@ -94,24 +94,25 @@ router.post('/', async (req, res) => {
 // async function deleteUser(userId,res) {
 //     try {
 //         const result = await con.promise().query('DELETE FROM users WHERE id = ?', userId);
-//         console.log(result);
 //         return result;
 //     } catch{
 //          res.status(404).send(`User with ID ${userId} not found`);;
 //     }
 // }
-// router.delete('/:userId', async (req, res) => {
-//     const userId = req.params.userId;
-//     try {
-//         const rowsAffected = deleteUser(userId);
-//         console.log(rowsAffected);
-//         if (rowsAffected.affectedRows > 0) {
-//             res.status(200).send(`User with ID ${userId} deleted successfully`);
-//         } 
-//     } catch (error) {
-//         console.error('Error deleting user:', error);
-//         res.status(500).send('Internal Server Error');
-//     }
-// });
+router.delete('/:userId', async (req, res) => {
+    const userId = req.params.userId;
+    try {
+        const result = await con.promise().query('DELETE FROM users WHERE id = ?', userId);
+        if (result.affectedRows > 0) {
+            res.status(200).send(`User with ID ${userId} deleted successfully`);
+        } 
+        else{
+            res.status(404).send(`User with ID ${userId} not found`);
+        }
+    } catch (error) {
+        console.error('Error deleting user:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
 
 module.exports = router;
