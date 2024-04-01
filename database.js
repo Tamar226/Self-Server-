@@ -47,7 +47,7 @@ function createTables() {
             console.log("Table created!");
         });
          //create password table
-         var createPasswordTableQuery = "CREATE TABLE IF NOT EXISTS passwords (name VARCHAR(255) NOT NULL,website VARCHAR(255) NOT NULL,PRIMARY KEY (name))";
+         var createPasswordTableQuery = "CREATE TABLE IF NOT EXISTS passwords (username VARCHAR(255) NOT NULL,website VARCHAR(255) NOT NULL,PRIMARY KEY (username))";
          con.query(createPasswordTableQuery, function (err, result) {
              if (err) throw err;
              console.log("Table created!");
@@ -277,53 +277,53 @@ const todosData = [
 function insertData() {
     // Create new posts
 
-    for (let i = 0; i < postsData.length; i++) {
-        const postData = postsData[i];
-        var createPostsQuery = "INSERT INTO posts ( userId,  title, body) VALUES ( ?, ?, ?)";
-        var values = [postData.userId,  postData.title, postData.body];
-        con.query(createPostsQuery, values, function (err, result) {
-            if (err) throw err;
-            console.log("Post " + (i + 1) + " inserted");
-        });
-    }
+    // for (let i = 0; i < postsData.length; i++) {
+    //     const postData = postsData[i];
+    //     var createPostsQuery = "INSERT INTO posts ( userId,  title, body) VALUES ( ?, ?, ?)";
+    //     var values = [postData.userId,  postData.title, postData.body];
+    //     con.query(createPostsQuery, values, function (err, result) {
+    //         if (err) throw err;
+    //         console.log("Post " + (i + 1) + " inserted");
+    //     });
+    // }
     // Create new comments
-    for (let i = 0; i < commentsData.length; i++) {
-        const comment = commentsData[i];
-        var createCommentsQuery = "INSERT INTO comments ( postId, name, email, body) VALUES ( ?, ?, ?, ?)";
-        var values = [comment.postId, comment.name, comment.email, comment.body];
-        con.query(createCommentsQuery, values, function (err, result) {
-            if (err) throw err;
-            console.log("Comment " + (i + 1) + " inserted");
-        });
-    }
+    // for (let i = 0; i < commentsData.length; i++) {
+    //     const comment = commentsData[i];
+    //     var createCommentsQuery = "INSERT INTO comments ( postId, name, email, body) VALUES ( ?, ?, ?, ?)";
+    //     var values = [comment.postId, comment.name, comment.email, comment.body];
+    //     con.query(createCommentsQuery, values, function (err, result) {
+    //         if (err) throw err;
+    //         console.log("Comment " + (i + 1) + " inserted");
+    //     });
+    // }
     // Create new todos
-    for (let i = 0; i < todosData.length; i++) {
-        const todo = todosData[i];
-        var createTodosQuery = "INSERT INTO todos (userId,  title, completed) VALUES ( ?, ?, ?)";
-        var values = [todo.userId, todo.title, todo.completed];
-        con.query(createTodosQuery, values, function (err, result) {
-            if (err) throw err;
-            console.log("Todo " + (i + 1) + " inserted");
-        });
-    }
+    // for (let i = 0; i < todosData.length; i++) {
+    //     const todo = todosData[i];
+    //     var createTodosQuery = "INSERT INTO todos (userId,  title, completed) VALUES ( ?, ?, ?)";
+    //     var values = [todo.userId, todo.title, todo.completed];
+    //     con.query(createTodosQuery, values, function (err, result) {
+    //         if (err) throw err;
+    //         console.log("Todo " + (i + 1) + " inserted");
+    //     });
+    // }
     // Create new users
+    // for (let i = 0; i < usersData.length; i++) {
+    //     const user = usersData[i];
+    //     var createUsersQuery = "INSERT INTO users (name, username, email, street, city, zipcode, phone, companyName) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    //     var values = [user.name, user.username, user.email, user.street, user.city, user.zipcode, user.phone, user.companyName];
+    //     con.query(createUsersQuery, values, function (err, result) {
+    //         if (err) throw err;
+    //         console.log("User " + (i + 1) + " inserted");
+    //     });
+    // }
     for (let i = 0; i < usersData.length; i++) {
         const user = usersData[i];
-        var createUsersQuery = "INSERT INTO users (name, username, email, street, city, zipcode, phone, companyName) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        var values = [user.name, user.username, user.email, user.street, user.city, user.zipcode, user.phone, user.companyName];
-        con.query(createUsersQuery, values, function (err, result) {
-            if (err) throw err;
-            console.log("User " + (i + 1) + " inserted");
-        });
-    }
-    for (let i = 0; i < usersData.length; i++) {
-        const user = usersData[i];
-        var createUsersQuery = "INSERT INTO passwords (name,website) VALUES (?, ?)";
-        var values = [user.name,user.website];
+        var createUsersQuery = "INSERT INTO passwords (username,website) VALUES (?, ?)";
+        var values = [user.username,user.website];
         con.query(createUsersQuery, values, function (err, result) {
             if (err) throw err;
             console.log("User " + (i + 1) + " inserted");
         });
     }
 }
- insertData();
+// insertData();
