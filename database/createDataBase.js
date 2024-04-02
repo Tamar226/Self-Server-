@@ -38,25 +38,25 @@ function createTables() {
         var createCommentsTableQuery = "CREATE TABLE IF NOT EXISTS comments (id INT AUTO_INCREMENT ,postId INT NOT NULL, name VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL,body TEXT NOT NULL,PRIMARY KEY (id))";
         con.query(createCommentsTableQuery, function (err, result) {
             if (err) throw err;
-            console.log("Table created!");
+            console.log("Table comments created!");
         });
         //create posts table
         var createPostsTableQuery = "CREATE TABLE IF NOT EXISTS posts (id INT AUTO_INCREMENT ,userId INT NOT NULL,title VARCHAR(255) NOT NULL,body TEXT NOT NULL,PRIMARY KEY (id))";
         con.query(createPostsTableQuery, function (err, result) {
             if (err) throw err;
-            console.log("Table created!");
+            console.log("Table posts created!");
         });
          //create password table
          var createPasswordTableQuery = "CREATE TABLE IF NOT EXISTS passwords (name VARCHAR(255) NOT NULL,website VARCHAR(255) NOT NULL,PRIMARY KEY (name))";
          con.query(createPasswordTableQuery, function (err, result) {
              if (err) throw err;
-             console.log("Table created!");
+             console.log("Table password created!");
          });
     });
 }
 
 // createDb();
-//createTables();
+// createTables();
 const postsData = [
     {
         userId: 1,
@@ -316,14 +316,14 @@ function insertData() {
             console.log("User " + (i + 1) + " inserted");
         });
     }
-    for (let i = 0; i < usersData.length; i++) {
-        const user = usersData[i];
-        var createUsersQuery = "INSERT INTO passwords (name,website) VALUES (?, ?)";
-        var values = [user.name,user.website];
-        con.query(createUsersQuery, values, function (err, result) {
-            if (err) throw err;
-            console.log("User " + (i + 1) + " inserted");
-        });
-    }
+    // for (let i = 0; i < usersData.length; i++) {
+    //     const user = usersData[i];
+    //     var createUsersQuery = "INSERT INTO passwords (name,website) VALUES (?, ?)";
+    //     var values = [user.name,user.website];
+    //     con.query(createUsersQuery, values, function (err, result) {
+    //         if (err) throw err;
+    //         console.log("User " + (i + 1) + " inserted");
+    //     });
+    // }
 }
  insertData();
