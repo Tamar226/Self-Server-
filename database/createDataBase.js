@@ -38,25 +38,25 @@ function createTables() {
         var createCommentsTableQuery = "CREATE TABLE IF NOT EXISTS comments (id INT AUTO_INCREMENT ,postId INT NOT NULL, name VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL,body TEXT NOT NULL,PRIMARY KEY (id))";
         con.query(createCommentsTableQuery, function (err, result) {
             if (err) throw err;
-            console.log("Table comments created!");
+            console.log("Table created!");
         });
         //create posts table
         var createPostsTableQuery = "CREATE TABLE IF NOT EXISTS posts (id INT AUTO_INCREMENT ,userId INT NOT NULL,title VARCHAR(255) NOT NULL,body TEXT NOT NULL,PRIMARY KEY (id))";
         con.query(createPostsTableQuery, function (err, result) {
             if (err) throw err;
-            console.log("Table posts created!");
+            console.log("Table created!");
         });
          //create password table
          var createPasswordTableQuery = "CREATE TABLE IF NOT EXISTS passwords (username VARCHAR(255) NOT NULL,website VARCHAR(255) NOT NULL,PRIMARY KEY (username))";
          con.query(createPasswordTableQuery, function (err, result) {
              if (err) throw err;
-             console.log("Table password created!");
+             console.log("Table created!");
          });
     });
 }
 
 // createDb();
-// createTables();
+//createTables();
 const postsData = [
     {
         userId: 1,
@@ -318,29 +318,12 @@ function insertData() {
     // }
     for (let i = 0; i < usersData.length; i++) {
         const user = usersData[i];
-<<<<<<< HEAD:database/createDataBase.js
-        var createUsersQuery = "INSERT INTO users (name, username, email, street, city, zipcode, phone, companyName) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        var values = [user.name, user.username, user.email, user.street, user.city, user.zipcode, user.phone, user.companyName];
-=======
         var createUsersQuery = "INSERT INTO passwords (username,website) VALUES (?, ?)";
         var values = [user.username,user.website];
->>>>>>> dd6f51d050f00cb5889a1cfeaac680f85eaa73ab:database.js
         con.query(createUsersQuery, values, function (err, result) {
             if (err) throw err;
             console.log("User " + (i + 1) + " inserted");
         });
     }
-<<<<<<< HEAD:database/createDataBase.js
-    // for (let i = 0; i < usersData.length; i++) {
-    //     const user = usersData[i];
-    //     var createUsersQuery = "INSERT INTO passwords (name,website) VALUES (?, ?)";
-    //     var values = [user.name,user.website];
-    //     con.query(createUsersQuery, values, function (err, result) {
-    //         if (err) throw err;
-    //         console.log("User " + (i + 1) + " inserted");
-    //     });
-    // }
-=======
->>>>>>> dd6f51d050f00cb5889a1cfeaac680f85eaa73ab:database.js
 }
 // insertData();

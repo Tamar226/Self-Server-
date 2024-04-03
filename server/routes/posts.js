@@ -15,10 +15,10 @@ router.get('/', async (req, res) => {
         else {
             res.status(200).send('success get all posts');
         }
-        res.send(allPosts);
+
     } catch (error) {
         console.error('Error retrieving posts:', error);
-        res.status(500).send('Internal Server Error');
+        // res.status(500).send('Internal Server Error');
     }
 });
 
@@ -30,12 +30,11 @@ router.get('/:postId', async (req, res) => {
             res.status(404).send('Error');
         }
         else {
-            res.status(200).send(`success get post by id: ${postId}`);
+            res.status(200).send([`success get post by id: ${postId}`,result]);
         }
-        res.send(post);
     } catch (error) {
         console.error(`Error retrieving post with ID ${postId}:`, error);
-        res.status(500).send('Internal Server Error');
+        // res.status(500).send('Internal Server Error');
     }
 
 });
@@ -47,7 +46,7 @@ router.post('/', async (req, res) => {
         if (result.insertId > 0) {
             res.status(201).send(`Todo added with ID: ${todoId}`);
         } else {
-            res.status(404).send('Error adding todo');
+            res.status(404).send('Error adding post');
         }
     } catch (error) {
         console.error('Error adding post:', error);

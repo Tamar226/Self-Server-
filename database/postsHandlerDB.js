@@ -20,7 +20,7 @@ async function getPostById(postId) {
         if (post.length === 0) {
             throw new Error(`post with ID ${postId} not found`);
         }
-        return user[0];
+        return post[0];
     } catch (error) {
         throw error;
     }
@@ -30,6 +30,7 @@ async function addPost(newPost) {
     try {
         console.log('hiii');
         const result = await con.promise().query(`INSERT INTO posts (userID, title,body) VALUES ('${newPost.userId}', '${newPost.title}','${newPost.body}')`);
+        console.log(result);
         if (result.insertId > 0) {
             return prepareResult(false, 0, result.insertId)
         }
