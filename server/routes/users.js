@@ -5,13 +5,6 @@ dotenv.config('');
 const express = require('express');
 const router = express.Router();
 
-
-
-async function getAllUsers() {
-    const [allUsers] = await con.promise().query('SELECT * FROM users');
-    return allUsers;
-}
-
 router.get('/', async (req, res) => {
     try {
         const allUsers = await usersDataBase.getAllUsers();
@@ -31,15 +24,6 @@ async function getUserById(userId) {
     try {
         const [user] = await con.promise().query('SELECT * FROM users WHERE id = ?', [userId]);
 
-        if (user.length === 0) {
-            throw new Error(`User with ID ${userId} not found`);
-        }
-        return user[0];
-    } catch (error) {
-        throw error;
-    }
-}
->>>>>>> dd6f51d050f00cb5889a1cfeaac680f85eaa73ab
 router.get('/:userId', async (req, res) => {
     const userId = req.params.userId;
     try {
@@ -53,7 +37,6 @@ router.get('/:userId', async (req, res) => {
     }
 });
 
-<<<<<<< HEAD
 router.post('/', async (req, res) => {
 =======
 async function addUser(newUser) {
@@ -66,7 +49,6 @@ async function addUser(newUser) {
     }
 }
 router.post('/register', async (req, res) => {
->>>>>>> dd6f51d050f00cb5889a1cfeaac680f85eaa73ab
     const newUser = req.body;
     try {
         const userId = await usersDataBase.addUser(newUser);
