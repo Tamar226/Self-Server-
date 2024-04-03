@@ -30,7 +30,12 @@ async function addPost(newPost) {
     try {
         console.log('hiii');
         const result = await con.promise().query(`INSERT INTO posts (userID, title,body) VALUES ('${newPost.userId}', '${newPost.title}','${newPost.body}')`);
-        return result.insertId;
+        if (result.insertId > 0) {
+            return prepareResult(false, 0, result.insertId)
+        }
+        else {
+            return prepareResult(true, 0, 0);
+        }
     } catch (error) {
         throw error;
     }
@@ -39,7 +44,12 @@ async function addPost(newPost) {
 async function updatePost(postId, updatedPostData) {
     try {
         const result = await con.promise().query('UPDATE posts SET ? WHERE id = ?', [updatedPostData, postId]);
-        return result.affectedRows;
+        if (result.affectedRows > 0) {
+            return prepareResult(false, result.affectedRows, 0)
+        }
+        else {
+            return prepareResult(true, 0, 0);
+        }
     } catch (error) {
         throw error;
     }
@@ -48,7 +58,12 @@ async function updatePost(postId, updatedPostData) {
 async function deletePost(postId) {
     try {
         const result = await con.promise().query('DELETE FROM posts WHERE id = ?', postId);
-        return result.affectedRows;
+        if (result.affectedRows > 0) {
+            return prepareResult(false, result.affectedRows, 0)
+
+        } else {
+            return prepareResult(true, 0, 0);
+        }
     } catch (error) {
         throw error;
     }

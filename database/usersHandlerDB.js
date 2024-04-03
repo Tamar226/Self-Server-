@@ -9,9 +9,12 @@ var con = mysql.createConnection({
 });
 
 async function getAllUsers() {
+    try{
     const [allUsers] = await con.promise().query('SELECT * FROM users');
-
     console.log(allUsers);
+    }catch( error){
+        console.error('Error retrieving users:', error);
+    }
     return allUsers;
 }
 
@@ -30,7 +33,12 @@ async function getUserById(userId) {
 async function addUser(newUser) {
     try {
         const result = await con.promise().query(`INSERT INTO users (name, username, email,street,city,zipcode, phone, companyName) VALUES ('${newUser.name}', '${newUser.username}', '${newUser.email}', '${newUser.street}','${newUser.city}', '${newUser.zipcode}', '${newUser.phone}','${newUser.companyName}')`);
-        return result.insertId;
+        if (result.insertId > 0) {
+            return prepareResult(false, 0, result.insertId)
+        }
+        else {
+            return prepareResult(true, 0, 0);
+        }
     } catch (error) {
         throw error;
     }

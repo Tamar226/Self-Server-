@@ -27,7 +27,9 @@ router.get('/:todoId', async (req, res) => {
         if (result.hasError){
             res.status(404).send('Error');
         }
-        res.send(allTodos);
+        else{
+            res.status(200).send(`Success brought todo with ID ${todoId}`);
+        }
         res.send(todo);
     } catch (error) {
         console.error(`Error retrieving todo with ID ${todoId}:`, error);
@@ -39,7 +41,11 @@ router.post('/', async (req, res) => {
     const newTodo = req.body;
     try {
         const result = await todosDataBase.addTodo(newTodo);
+        if (result.insertId > 0) {
         res.status(201).send(`Todo added with ID: ${todoId}`);
+        }else{
+            res.status(404).send('Error adding todo');
+        }
     } catch (error) {
         console.error('Error adding todo:', error);
         res.status(500).send('Internal Server Error');

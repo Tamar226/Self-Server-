@@ -45,7 +45,7 @@ async function updateTodo(todoId, updatedTodoData) {
     try {
         const result = await con.promise().query('UPDATE todos SET ? WHERE id = ?', [updatedTodoData, todoId]);
         if (result.affectedRows > 0) {
-            return prepareResult(false, 1, 0)
+            return prepareResult(false, result.affectedRows, 0)
         }
         else {
             return prepareResult(true, 0, 0);
@@ -60,7 +60,7 @@ async function deleteTodo(todoId) {
     try {
         const result = await con.promise().query('DELETE FROM todos WHERE id = ?', todoId);
         if (result.affectedRows > 0) {
-            return prepareResult(false, 1, 0)
+            return prepareResult(false, result.affectedRows, 0)
 
         } else {
             return prepareResult(true, 0, 0);

@@ -29,7 +29,12 @@ async function getCommentById(commentId) {
 async function addComment(newComment) {
     try {
         const result = await con.promise().query(`INSERT INTO comments (postId, name,email,body) VALUES ('${newComment.postId}', '${newComment.name}','${newComment.email}','${newComment.body}')`);
-        return result.insertId;
+        if (result.insertId > 0) {
+            return prepareResult(false, 0, result.insertId)
+        }
+        else {
+            return prepareResult(true, 0, 0);
+        }
     } catch (error) {
         throw error;
     }
@@ -38,7 +43,12 @@ async function addComment(newComment) {
 async function updateComment(commentId, updatedCommentData) {
     try {
       const result = await con.promise().query('UPDATE comments SET ? WHERE id = ?', [updatedCommentData, commentId]);
-      return result.affectedRows;
+      if (result.affectedRows > 0) {
+        return prepareResult(false, result.affectedRows, 0)
+    }
+    else {
+        return prepareResult(true, 0, 0);
+    }
     } catch (error) {
         throw error;
     }
@@ -47,7 +57,12 @@ async function updateComment(commentId, updatedCommentData) {
   async function deleteComment(commentId) {
     try {
         const result = await con.promise().query('DELETE FROM comments WHERE id = ?', commentId);
-        return result.affectedRows;
+        if (result.affectedRows > 0) {
+            return prepareResult(false, result.affectedRows, 0)
+
+        } else {
+            return prepareResult(true, 0, 0);
+        }
     } catch (error) {
         throw error;
     }

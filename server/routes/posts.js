@@ -31,6 +31,7 @@ router.get('/:postId', async (req, res) => {
         console.error(`Error retrieving post with ID ${postId}:`, error);
         res.status(500).send('Internal Server Error');
     }
+    
 });
 
 router.post('/', async (req, res) => {
