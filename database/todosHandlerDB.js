@@ -29,9 +29,9 @@ async function getTodoById(todoId) {
 
 async function addTodo(newTodo) {
     try {
-        const resultquery = await con.promise().query(`INSERT INTO todos (userID, title,completed) VALUES ('${newTodo.userId}', '${newTodo.title}','${newTodo.completed}')`);
-        if (result.insertId > 0) {
-            return prepareResult(false, 0, result.insertId)
+        const result = await con.promise().query(`INSERT INTO todos (userID, title,completed) VALUES ('${newTodo.userId}', '${newTodo.title}','${newTodo.completed}')`);
+        if (result[0].insertId > 0) {
+            return prepareResult(false, 0, result[0].insertId)
         }
         else {
             return prepareResult(true, 0, 0);
@@ -44,8 +44,8 @@ async function addTodo(newTodo) {
 async function updateTodo(todoId, updatedTodoData) {
     try {
         const result = await con.promise().query('UPDATE todos SET ? WHERE id = ?', [updatedTodoData, todoId]);
-        if (result.affectedRows > 0) {
-            return prepareResult(false, result.affectedRows, 0)
+        if (result[0].affectedRows > 0) {
+            return prepareResult(false, result[0].affectedRows, 0)
         }
         else {
             return prepareResult(true, 0, 0);
@@ -59,8 +59,8 @@ async function updateTodo(todoId, updatedTodoData) {
 async function deleteTodo(todoId) {
     try {
         const result = await con.promise().query('DELETE FROM todos WHERE id = ?', todoId);
-        if (result.affectedRows > 0) {
-            return prepareResult(false, result.affectedRows, 0)
+        if (result[0].affectedRows > 0) {
+            return prepareResult(false, result[0].affectedRows, 0)
 
         } else {
             return prepareResult(true, 0, 0);
@@ -69,11 +69,11 @@ async function deleteTodo(todoId) {
         throw error;
     }
 }
-function prepareResult(hasError, affectedRows, insertId) {
+function prepareResult(hasErrorT=true, affectedRowsT=0, insertIdT=-1) {
     const resultdata = {
-        hasError: true,
-        affectedRows: 0,
-        insertId: -1
+        hasError: hasErrorT,
+        affectedRows: affectedRowsT,
+        insertId: insertIdT
     }
     return resultdata;
 }

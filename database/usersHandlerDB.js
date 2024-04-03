@@ -9,12 +9,7 @@ var con = mysql.createConnection({
 });
 
 async function getAllUsers() {
-    try{
     const [allUsers] = await con.promise().query('SELECT * FROM users');
-    console.log(allUsers);
-    }catch( error){
-        console.error('Error retrieving users:', error);
-    }
     return allUsers;
 }
 
@@ -33,8 +28,8 @@ async function getUserById(userId) {
 async function addUser(newUser) {
     try {
         const result = await con.promise().query(`INSERT INTO users (name, username, email,street,city,zipcode, phone, companyName) VALUES ('${newUser.name}', '${newUser.username}', '${newUser.email}', '${newUser.street}','${newUser.city}', '${newUser.zipcode}', '${newUser.phone}','${newUser.companyName}')`);
-        if (result.insertId > 0) {
-            return prepareResult(false, 0, result.insertId)
+        if (result[0].insertId > 0) {
+            return prepareResult(false, 0, result[0].insertId)
         }
         else {
             return prepareResult(true, 0, 0);
@@ -44,12 +39,59 @@ async function addUser(newUser) {
     }
 }
 
-function prepareResult(hasError, affectedRows, insertId) {
+
+async function updateUser(userId, updatedUserData) {
+    try {
+        const result = await con.promise().query('UPDATE users SET ? WHERE id = ?', [updatedUserData, userId]);
+        if (result[0].affectedRows > 0) {
+            return prepareResult(false, result[0].affectedRows, 0)
+        }
+        else {
+            return prepareResult(true, 0, 0);
+        }
+    } catch (error) {
+        throw error;
+    }
+}
+
+async function deleteUser(userId) {
+    try {
+        const result = await con.promise().query('DELETE FROM users WHERE id = ?', userId);
+        if (result[0].affectedRows > 0) {
+            return prepareResult(false, result[0].affectedRows, 0)
+
+        } else {
+            return prepareResult(true, 0, 0);
+        }
+    } catch (error) {
+        throw error;
+    }
+}
+
+async function getUserDetails(userName, password) {
+    try {
+        const query = `
+     SELECT *
+     FROM users
+     NATURAL JOIN passwords ON users.username = passwords.username
+     WHERE users.username = ? AND passwords.website = ?;
+   `;
+        const [user] = await con.promise().query(query, [userName, password]);
+        if (user.length === 0) {
+            throw new Error(`User with ID ${userId} not found`);
+        }
+        return user[0];
+    } catch (error) {
+        throw error;
+    }
+}
+
+function prepareResult(hasErrorT = true, affectedRowsT = 0, insertIdT = -1) {
     const resultdata = {
-        hasError: true,
-        affectedRows: 0,
-        insertId: -1
+        hasError: hasErrorT,
+        affectedRows: affectedRowsT,
+        insertId: insertIdT
     }
     return resultdata;
 }
-module.exports = { getAllUsers, getUserById, addUser };
+module.exports = { getAllUsers, getUserById, addUser, updateUser, deleteUser, getUserDetails };

@@ -16,7 +16,7 @@ var con = mysql.createConnection({
     user: process.env.MYSQL_USER,
     password: process.env.MYSQL_PASSWORD,
     database: process.env.MYSQL_DATABASE,
-    // port: process.env.PORT
+  //   port: process.env.PORT
 });
 function createTables() {
     con.connect(function (err) {
@@ -47,7 +47,7 @@ function createTables() {
             console.log("Table created!");
         });
          //create password table
-         var createPasswordTableQuery = "CREATE TABLE IF NOT EXISTS passwords (username VARCHAR(255) NOT NULL,website VARCHAR(255) NOT NULL,PRIMARY KEY (username))";
+         var createPasswordTableQuery = "CREATE TABLE IF NOT EXISTS passwords (username VARCHAR(255) NOT NULL,password VARCHAR(255) NOT NULL,PRIMARY KEY (username))";
          con.query(createPasswordTableQuery, function (err, result) {
              if (err) throw err;
              console.log("Table created!");
@@ -56,7 +56,7 @@ function createTables() {
 }
 
 // createDb();
-//createTables();
+createTables();
 const postsData = [
     {
         userId: 1,

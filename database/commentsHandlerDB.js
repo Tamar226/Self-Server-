@@ -10,7 +10,6 @@ var con = mysql.createConnection({
 
 async function getAllComments() {
     const [allComments] = await con.promise().query('SELECT * FROM comments');
-    console.log(allComments);
     return allComments;
 }
 
@@ -29,8 +28,8 @@ async function getCommentById(commentId) {
 async function addComment(newComment) {
     try {
         const result = await con.promise().query(`INSERT INTO comments (postId, name,email,body) VALUES ('${newComment.postId}', '${newComment.name}','${newComment.email}','${newComment.body}')`);
-        if (result.insertId > 0) {
-            return prepareResult(false, 0, result.insertId)
+        if (result[0].insertId > 0) {
+            return prepareResult(false, 0, result[0].insertId)
         }
         else {
             return prepareResult(true, 0, 0);
@@ -43,8 +42,8 @@ async function addComment(newComment) {
 async function updateComment(commentId, updatedCommentData) {
     try {
       const result = await con.promise().query('UPDATE comments SET ? WHERE id = ?', [updatedCommentData, commentId]);
-      if (result.affectedRows > 0) {
-        return prepareResult(false, result.affectedRows, 0)
+      if (result[0].affectedRows > 0) {
+        return prepareResult(false, result[0].affectedRows, 0)
     }
     else {
         return prepareResult(true, 0, 0);
@@ -57,8 +56,8 @@ async function updateComment(commentId, updatedCommentData) {
   async function deleteComment(commentId) {
     try {
         const result = await con.promise().query('DELETE FROM comments WHERE id = ?', commentId);
-        if (result.affectedRows > 0) {
-            return prepareResult(false, result.affectedRows, 0)
+        if (result[0].affectedRows > 0) {
+            return prepareResult(false, result[0].affectedRows, 0)
 
         } else {
             return prepareResult(true, 0, 0);
@@ -67,11 +66,11 @@ async function updateComment(commentId, updatedCommentData) {
         throw error;
     }
 }
-function prepareResult(hasError, affectedRows, insertId) {
+function prepareResult(hasErrorT=true, affectedRowsT=0, insertIdT=-1) {
     const resultdata = {
-        hasError: true,
-        affectedRows: 0,
-        insertId: -1
+        hasError: hasErrorT,
+        affectedRows: affectedRowsT,
+        insertId: insertIdT
     }
     return resultdata;
 }

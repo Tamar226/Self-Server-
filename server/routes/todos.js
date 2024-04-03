@@ -10,13 +10,15 @@ const router = express.Router();
 router.get('/', async (req, res) => {
     try {
         const result = await todosDataBase.getAllTodos();
-        if (result.hasError){
+        if (result.hasError) {
             res.status(404).send('Error');
         }
-        res.send(allTodos);
+        else {
+            res.status(200).send(['success get all todos',result]);
+        }
     } catch (error) {
         console.error('Error retrieving todos:', error);
-        res.status(500).send('Internal Server Error');
+       // res.status(500).send('Internal Server Error');
     }
 });
 
@@ -28,11 +30,9 @@ router.get('/:todoId', async (req, res) => {
             res.status(404).send('Error');
         }
         else{
-            res.status(200).send(`Success brought todo with ID ${todoId}`);
+            res.status(200).send([`Success brought todo with ID ${todoId}`,result]);
         }
-        res.send(todo);
     } catch (error) {
-        console.error(`Error retrieving todo with ID ${todoId}:`, error);
         res.status(500).send('Internal Server Error');
     }
 });
@@ -42,7 +42,7 @@ router.post('/', async (req, res) => {
     try {
         const result = await todosDataBase.addTodo(newTodo);
         if (result.insertId > 0) {
-        res.status(201).send(`Todo added with ID: ${todoId}`);
+        res.status(201).send(`Todo added with ID: ${result.insertId}`);
         }else{
             res.status(404).send('Error adding todo');
         }
@@ -56,8 +56,8 @@ router.post('/', async (req, res) => {
     const todoId = req.params.todoId;
     const updatedTodoData = req.body;
     try {
-      const rowsAffected = await todosDataBase.updateTodo(todoId, updatedTodoData);
-      if (rowsAffected > 0) {
+      const result = await todosDataBase.updateTodo(todoId, updatedTodoData);
+      if (result.affectedRows > 0) {
         res.status(200).send(`Todo with ID ${todoId} updated successfully`);
       } else {
         res.status(404).send(`Todo with ID ${todoId} not found`);
@@ -71,8 +71,8 @@ router.post('/', async (req, res) => {
 router.delete('/:todoId', async (req, res) => {
     const todoId = req.params.todoId;
     try {
-        const rowsAffected = await todosDataBase.deleteTodo(todoId);
-        if (rowsAffected > 0) {
+        const result = await todosDataBase.deleteTodo(todoId);
+        if (result.affectedRows > 0) {
             res.status(200).send(`Todo with ID ${todoId} deleted successfully`);
         } else {
             res.status(404).send(`Todo with ID ${todoId} not found`);

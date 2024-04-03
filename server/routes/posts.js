@@ -6,19 +6,16 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-    console.log('hiii');
     try {
         const result = await postsDataBase.getAllPosts();
         if (result.hasError) {
             res.status(404).send('Error');
         }
         else {
-            res.status(200).send('success get all posts');
+            res.status(200).send(['success get all posts',result]);
         }
-
     } catch (error) {
-        console.error('Error retrieving posts:', error);
-        // res.status(500).send('Internal Server Error');
+         res.status(500).send('Internal Server Error');
     }
 });
 
@@ -33,8 +30,7 @@ router.get('/:postId', async (req, res) => {
             res.status(200).send([`success get post by id: ${postId}`,result]);
         }
     } catch (error) {
-        console.error(`Error retrieving post with ID ${postId}:`, error);
-        // res.status(500).send('Internal Server Error');
+        res.status(500).send('Internal Server Error');
     }
 
 });
@@ -44,7 +40,7 @@ router.post('/', async (req, res) => {
     try {
         const result = await postsDataBase.addPost(newPost);
         if (result.insertId > 0) {
-            res.status(201).send(`Todo added with ID: ${todoId}`);
+            res.status(201).send(`Posts added with ID: ${result.insertId}`);
         } else {
             res.status(404).send('Error adding post');
         }
