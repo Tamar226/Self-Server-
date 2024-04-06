@@ -78,4 +78,9 @@ function prepareResult(hasErrorT=true, affectedRowsT=0, insertIdT=1) {
     }
     return resultdata;
 }
-module.exports = { getAllPosts,getPostById, addPost, updatePost, deletePost };
+module.exports = { 
+    getAllPosts,
+    getPostById, 
+    addPost, 
+    updatePost, 
+    deletePost };

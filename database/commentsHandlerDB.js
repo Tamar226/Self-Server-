@@ -41,19 +41,19 @@ async function addComment(newComment) {
 
 async function updateComment(commentId, updatedCommentData) {
     try {
-      const result = await con.promise().query('UPDATE comments SET ? WHERE id = ?', [updatedCommentData, commentId]);
-      if (result[0].affectedRows > 0) {
-        return prepareResult(false, result[0].affectedRows, 0)
-    }
-    else {
-        return prepareResult(true, 0, 0);
-    }
+        const result = await con.promise().query('UPDATE comments SET ? WHERE id = ?', [updatedCommentData, commentId]);
+        if (result[0].affectedRows > 0) {
+            return prepareResult(false, result[0].affectedRows, 0)
+        }
+        else {
+            return prepareResult(true, 0, 0);
+        }
     } catch (error) {
         throw error;
     }
-  }
+}
 
-  async function deleteComment(commentId) {
+async function deleteComment(commentId) {
     try {
         const result = await con.promise().query('DELETE FROM comments WHERE id = ?', commentId);
         if (result[0].affectedRows > 0) {
@@ -66,7 +66,7 @@ async function updateComment(commentId, updatedCommentData) {
         throw error;
     }
 }
-function prepareResult(hasErrorT=true, affectedRowsT=0, insertIdT=-1) {
+function prepareResult(hasErrorT = true, affectedRowsT = 0, insertIdT = -1) {
     const resultdata = {
         hasError: hasErrorT,
         affectedRows: affectedRowsT,
@@ -74,4 +74,11 @@ function prepareResult(hasErrorT=true, affectedRowsT=0, insertIdT=-1) {
     }
     return resultdata;
 }
-module.exports={getAllComments,getCommentById,addComment,updateComment,deleteComment}
+
+module.exports = {
+    getAllComments,
+    getCommentById,
+    addComment,
+    updateComment,
+    deleteComment
+}

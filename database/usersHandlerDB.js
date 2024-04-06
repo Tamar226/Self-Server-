@@ -39,7 +39,6 @@ async function addUser(newUser) {
     }
 }
 
-
 async function updateUser(userId, updatedUserData) {
     try {
         const result = await con.promise().query('UPDATE users SET ? WHERE id = ?', [updatedUserData, userId]);
@@ -69,16 +68,19 @@ async function deleteUser(userId) {
 }
 
 async function getUserDetails(userName, password) {
+    console.log(userName);
+    console.log(password);
     try {
-        const query = `
-     SELECT *
-     FROM users
-     NATURAL JOIN passwords ON users.username = passwords.username
-     WHERE users.username = ? AND passwords.website = ?;
-   `;
-        const [user] = await con.promise().query(query, [userName, password]);
+        const query = `SELECT name FROM passwords WHERE name = ? AND website = ?`;
+    //     `
+    //  SELECT *
+    //  FROM users
+    //  NATURAL JOIN passwords ON users.username = passwords.username
+    //  WHERE users.username = ? AND passwords.website = ?;`;
+        const user = await con.promise().query(query, [userName, password]);
+        console.log(user);
         if (user.length === 0) {
-            throw new Error(`User with ID ${userId} not found`);
+            throw new Error(`User not found`);
         }
         return user[0];
     } catch (error) {
@@ -94,4 +96,11 @@ function prepareResult(hasErrorT = true, affectedRowsT = 0, insertIdT = -1) {
     }
     return resultdata;
 }
-module.exports = { getAllUsers, getUserById, addUser, updateUser, deleteUser, getUserDetails };
+module.exports = {
+    getAllUsers,
+    getUserById,
+    addUser,
+    updateUser,
+    deleteUser,
+    getUserDetails
+};

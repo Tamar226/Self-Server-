@@ -1,4 +1,5 @@
 require('dotenv').config();
+const cors = require('cors');
 const express = require('express');
 
 const usersRouter = require('./routes/users');
@@ -11,6 +12,7 @@ const server = express();
 const host = process.env.MYSQL_HOST;
 const port = process.env.PORT;
 
+server.use((cors({ origin:'*'})));
 server.use(express.json());
 
 server.use('/users', usersRouter);

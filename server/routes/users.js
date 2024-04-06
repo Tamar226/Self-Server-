@@ -5,6 +5,7 @@ dotenv.config();
 const express = require('express');
 const router = express.Router();
 
+router.use(express.json());
 
 router.get('/', async (req, res) => {
     try {
@@ -68,7 +69,7 @@ router.delete('/:userId', async (req, res) => {
     }
 });
 
-router.post('/', async (req, res) => {
+router.post('/register', async (req, res) => {
     const newUser = req.body;
     try {
         const resultRegister = await usersDataBase.addUser(newUser);
@@ -83,9 +84,10 @@ router.post('/', async (req, res) => {
 });
 
 
-router.post('/:userName/:password', (req, res) => {
-    const userName=req.params.userName;
-    const password=req.params.password;
+router.post('/login', (req, res) => {
+    console.log(req.body);
+    const userName=req.body.userName;
+    const password=req.body.website;
     try {
         const result =  usersDataBase.getUserDetails(userName, password);
         if (result.hasError) {
