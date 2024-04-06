@@ -15,11 +15,11 @@ async function getAllComments() {
 
 async function getCommentById(commentId) {
     try {
-        const [comment] = await con.promise().query('SELECT * FROM comments WHERE id = ?', [commentId]);
-        if (comment.length === 0) {
+        const result = await con.promise().query('SELECT * FROM comments WHERE id = ?', [commentId]);
+        if (result.length === 0) {
             throw new Error(`Comment with ID ${commentId} not found`);
         }
-        return comment[0];
+        return prepareResult(false, 0, 0, result);
     } catch (error) {
         throw error;
     }
@@ -66,11 +66,12 @@ async function deleteComment(commentId) {
         throw error;
     }
 }
-function prepareResult(hasErrorT = true, affectedRowsT = 0, insertIdT = -1) {
+function prepareResult(hasErrorT = true, affectedRowsT = 0, insertIdT = -1, dataT = null) {
     const resultdata = {
         hasError: hasErrorT,
         affectedRows: affectedRowsT,
-        insertId: insertIdT
+        insertId: insertIdT,
+        data: dataT
     }
     return resultdata;
 }

@@ -318,8 +318,8 @@ function insertData() {
     // }
     for (let i = 0; i < usersData.length; i++) {
         const user = usersData[i];
-        var createUsersQuery = "INSERT INTO passwords (username,website) VALUES (?, ?)";
-        var values = [user.username,user.website];
+        var createUsersQuery = "INSERT INTO passwords (username,password) VALUES (?, ?)";
+        var values = [user.username,user.password];
         con.query(createUsersQuery, values, function (err, result) {
             if (err) throw err;
             console.log("User " + (i + 1) + " inserted");

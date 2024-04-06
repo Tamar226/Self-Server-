@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
             res.status(404).send('Error');
         }
         else {
-            res.status(200).send(['success get all comments',result]);
+            res.status(200).send(['success get all comments',result.data]);
         }
     } catch (error) {
         res.status(500).send('Internal Server Error');

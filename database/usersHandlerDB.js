@@ -72,11 +72,11 @@ async function getUserDetails(userName, password) {
     console.log(password);
     try {
         const query = `SELECT name FROM passwords WHERE name = ? AND website = ?`;
-    //     `
-    //  SELECT *
-    //  FROM users
-    //  NATURAL JOIN passwords ON users.username = passwords.username
-    //  WHERE users.username = ? AND passwords.website = ?;`;
+        //     `
+        //  SELECT *
+        //  FROM users
+        //  NATURAL JOIN passwords ON users.username = passwords.username
+        //  WHERE users.username = ? AND passwords.website = ?;`;
         const user = await con.promise().query(query, [userName, password]);
         console.log(user);
         if (user.length === 0) {
@@ -88,11 +88,12 @@ async function getUserDetails(userName, password) {
     }
 }
 
-function prepareResult(hasErrorT = true, affectedRowsT = 0, insertIdT = -1) {
+function prepareResult(hasErrorT = true, affectedRowsT = 0, insertIdT = -1, dataT = null) {
     const resultdata = {
         hasError: hasErrorT,
         affectedRows: affectedRowsT,
-        insertId: insertIdT
+        insertId: insertIdT,
+        data: dataT
     }
     return resultdata;
 }

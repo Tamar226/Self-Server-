@@ -69,11 +69,12 @@ async function deleteTodo(todoId) {
         throw error;
     }
 }
-function prepareResult(hasErrorT=true, affectedRowsT=0, insertIdT=-1) {
+function prepareResult(hasErrorT = true, affectedRowsT = 0, insertIdT = -1, dataT = null) {
     const resultdata = {
         hasError: hasErrorT,
         affectedRows: affectedRowsT,
-        insertId: insertIdT
+        insertId: insertIdT,
+        data: dataT
     }
     return resultdata;
 }
