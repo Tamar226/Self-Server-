@@ -78,13 +78,14 @@ async function getUserByUsername(username) {
 async function getUserDetails(userName, password) {
     try {
         let query = `SELECT username FROM passwords WHERE username = '${userName}' AND password = '${password}'`;
-        const user = await con.promise().query(query);
-        if (user.length === 0) {
-            console.log("user[0][0].username " + user[0][0]?.username);
+        const result = await con.promise().query(query);
+        console.log('result '+result);
+        if (result.length === 0) {
+            console.log("result[0][0].username " + result[0][0]?.username);
             throw new Error(`User not found`);
         }
-        const userDetails = await getUserByUsername(user[0][0].username)
-        console.log(userDetails[0][0]);
+        const userDetails = await getUserByUsername(result[0][0].username)
+        console.log("hiiii "+userDetails[0][0]);
         return prepareResult(false, result[0].affectedRows,0, userDetails[0][0])
     } catch (error) {
         console.error(error);

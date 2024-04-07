@@ -6,7 +6,6 @@ const usersRouter = require('./routes/users');
 const todosRouter = require('./routes/todos');
 const postsRouter = require('./routes/posts');
 const commentsRouter = require('./routes/comments');
-const registerRouter = require('./routes/register');
 
 const server = express();
 const host = 'localhost'// process.env.MYSQL_HOST;

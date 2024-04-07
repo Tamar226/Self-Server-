@@ -18,11 +18,12 @@ async function getAllPosts() {
 }
 async function getPostById(postId) {
     try {
+        console.log(postId);
         const result = await con.promise().query('SELECT * FROM posts WHERE id = ' + postId);
         if (result.length === 0) {
             throw new Error(`post with ID ${postId} not found`);
         }
-        return prepareResults(false,0,0,result);
+        return prepareResult(false,0,0,result[0]);
     } catch (error) {
         throw error;
     }

@@ -20,11 +20,13 @@ async function getAllTodos() {
 
 async function getTodoById(todoId) {
     try {
+        console.log('hiiii');
+        console.log(todoId);
         const result = await con.promise().query('SELECT * FROM todos WHERE id = ?', [todoId]);
         if (result.length === 0) {
             throw new Error(`Todo with ID ${todoId} not found`);
         }
-        return prepareResults(false,0,0,result);
+        return prepareResult(false,0,0,result[0]);
     } catch (error) {
         throw error;
     }

@@ -1,5 +1,8 @@
 const dotenv = require('dotenv');
 const usersDataBase = require('../../database/usersHandlerDB');
+const todosDataBase = require('../../database/todosHandlerDB');
+const postsDataBase = require('../../database/postsHandlerDB');
+const commentsDataBase = require('../../database/commentsHandlerDB');
 dotenv.config();
 
 const express = require('express');
@@ -37,6 +40,36 @@ router.get('/:userId', async (req, res) => {
     }
 });
 
+router.get('/:userId/:typeInformetion', async (req, res) => {
+    const userId = req.params.userId;
+    const type = req.params.typeInformetion;
+    try {
+        var result;
+        switch (type) {
+            case 'posts':
+                result = await postsDataBase.getPostById(userId);
+                break;
+            case 'todos':
+                result = await todosDataBase.getTodoById(userId);
+                break;
+            case 'comments':
+                result = await commentsDataBase.getCommentById(userId);
+                break;
+            default:
+                break;
+        }
+        if (result.hasError) {
+            res.status(404).send('Error');
+        }
+        else {
+            res.status(200).send([`success get  ${type} by id: ${userId}`, result.data]);
+        }
+    } catch (error) {
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+
 
 router.put('/:userId', async (req, res) => {
     const userId = req.params.userId;
@@ -52,7 +85,6 @@ router.put('/:userId', async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
-
 
 router.delete('/:userId', async (req, res) => {
     const userId = req.params.userId;
@@ -89,7 +121,7 @@ router.post('/register', async (req, res) => {
 });
 
 
-router.post('/login',async (req, res) => {
+router.post('/login', async (req, res) => {
     const userName = req.body.username;
     const password = req.body.password;
     try {
@@ -109,5 +141,7 @@ router.post('/login',async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
+
+
 
 module.exports = router;
