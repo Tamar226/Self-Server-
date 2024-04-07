@@ -1,26 +1,28 @@
 const mysql = require('mysql2');
 
 var con = mysql.createConnection({
-    host: process.env.MYSQL_HOST,
-    user: process.env.MYSQL_USER,
-    password: process.env.MYSQL_PASSWORD,
-    database: process.env.MYSQL_DATABASE,
+    // host: process.env.MYSQL_HOST,
+    // user: process.env.MYSQL_USER,
+    // password: process.env.MYSQL_PASSWORD,
+    // database: process.env.MYSQL_DATABASE,
+    host: "localhost",
+    user: "root",
+    password: "T50226",
+    database: "mydb"
     // port: process.env.PORT
 });
 
 async function getAllPosts() {
-    console.log('byyy');
-    const [allPosts] = await con.promise().query('SELECT * FROM posts');
-    console.log(allPosts);
-    return allPosts;
+    const result = await con.promise().query('SELECT * FROM posts');
+    return prepareResults(false,0,0,result);
 }
 async function getPostById(postId) {
     try {
-        const [post] = await con.promise().query('SELECT * FROM posts WHERE id = ' + postId);
-        if (post.length === 0) {
+        const result = await con.promise().query('SELECT * FROM posts WHERE id = ' + postId);
+        if (result.length === 0) {
             throw new Error(`post with ID ${postId} not found`);
         }
-        return post[0];
+        return prepareResults(false,0,0,result);
     } catch (error) {
         throw error;
     }

@@ -1,16 +1,15 @@
 const mysql = require('mysql2');
 
 var con = mysql.createConnection({
-    host: process.env.MYSQL_HOST,
-    user: process.env.MYSQL_USER,
-    password: process.env.MYSQL_PASSWORD,
-    database: process.env.MYSQL_DATABASE,
-    // port: process.env.PORT
+    host: "localhost",
+    user: "root",
+    password: "T50226",
+    database: "mydb"
 });
 
 async function getAllComments() {
-    const [allComments] = await con.promise().query('SELECT * FROM comments');
-    return allComments;
+    const result = await con.promise().query('SELECT * FROM comments');
+    return prepareResults(false,0,0,result);
 }
 
 async function getCommentById(commentId) {

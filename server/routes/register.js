@@ -5,11 +5,15 @@ dotenv.config();
 const express = require('express');
 const router = express.Router();
 var con = mysql.createConnection({
-    host: process.env.MYSQL_HOST,
-    user: process.env.MYSQL_USER,
-    password: process.env.MYSQL_PASSWORD,
-    database: process.env.MYSQL_DATABASE,
+    // host: process.env.MYSQL_HOST,
+    // user: process.env.MYSQL_USER,
+    // password: process.env.MYSQL_PASSWORD,
+    // database: process.env.MYSQL_DATABASE,
     // port: process.env.PORT
+    host: "localhost",
+    user: "root",
+    password: "T50226",
+    database: "mydb"
 });
 
 async function addUser(newUser) {
@@ -23,6 +27,7 @@ async function addUser(newUser) {
 }
 
 router.post('/', async (req, res) => {
+    
     const newUser = req.body;
     try {
         const userId = await addUser(newUser);

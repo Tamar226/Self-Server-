@@ -1,25 +1,29 @@
 const mysql = require('mysql2');
 
 var con = mysql.createConnection({
-    host: process.env.MYSQL_HOST,
-    user: process.env.MYSQL_USER,
-    password: process.env.MYSQL_PASSWORD,
-    database: process.env.MYSQL_DATABASE,
+    // host: process.env.MYSQL_HOST,
+    // user: process.env.MYSQL_USER,
+    // password: process.env.MYSQL_PASSWORD,
+    // database: process.env.MYSQL_DATABASE,
     // port: process.env.PORT
+    host: "localhost",
+    user: "root",
+    password: "T50226",
+    database: "mydb"
 });
 
 async function getAllUsers() {
-    const [allUsers] = await con.promise().query('SELECT * FROM users');
-    return allUsers;
+    const result = await con.promise().query('SELECT * FROM users');
+    return prepareResults(false, 0, 0, result);
 }
 
 async function getUserById(userId) {
     try {
-        const [user] = await con.promise().query('SELECT * FROM users WHERE id = ?', [userId]);
-        if (user.length === 0) {
+        const result = await con.promise().query('SELECT * FROM users WHERE id = ?', [userId]);
+        if (result.length === 0) {
             throw new Error(`User with ID ${userId} not found`);
         }
-        return user[0];
+        return prepareResults(false, 0, 0, result);
     } catch (error) {
         throw error;
     }
@@ -67,23 +71,23 @@ async function deleteUser(userId) {
     }
 }
 
+async function getUserByUsername(username) {
+    console.log(username);
+    return await con.promise().query('SELECT * FROM users WHERE username =?', username);
+}
 async function getUserDetails(userName, password) {
-    console.log(userName);
-    console.log(password);
     try {
-        const query = `SELECT name FROM passwords WHERE name = ? AND website = ?`;
-        //     `
-        //  SELECT *
-        //  FROM users
-        //  NATURAL JOIN passwords ON users.username = passwords.username
-        //  WHERE users.username = ? AND passwords.website = ?;`;
-        const user = await con.promise().query(query, [userName, password]);
-        console.log(user);
+        let query = `SELECT username FROM passwords WHERE username = '${userName}' AND password = '${password}'`;
+        const user = await con.promise().query(query);
         if (user.length === 0) {
+            console.log("user[0][0].username " + user[0][0]?.username);
             throw new Error(`User not found`);
         }
-        return user[0];
+        const userDetails = await getUserByUsername(user[0][0].username)
+        console.log(userDetails[0][0]);
+        return prepareResult(false, result[0].affectedRows,0, userDetails[0][0])
     } catch (error) {
+        console.error(error);
         throw error;
     }
 }

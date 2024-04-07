@@ -2,21 +2,26 @@ const mysql = require('mysql2');
 const dotenv = require('dotenv');
 dotenv.config();
 
-// async function createDb() {
-//     const connection = mysql.createConnection({
-//         host: process.env.MYSQL_HOST,
-//         user: process.env.MYSQL_USER,
-//         password: process.env.MYSQL_PASSWORD
-//     });
-//     await connection.promise().query('CREATE DATABASE mydb');
-// };
+async function createDb() {
+    const connection = mysql.createConnection({
+        host: "Localhost", 
+        user: "root", 
+        password:"T50226"
+    });
+    await connection.promise().query('CREATE DATABASE newDB');
+};
 
 var con = mysql.createConnection({
-    host: process.env.MYSQL_HOST,
-    user: process.env.MYSQL_USER,
-    password: process.env.MYSQL_PASSWORD,
-    database: process.env.MYSQL_DATABASE,
-  //   port: process.env.PORT
+    // host: process.env.MYSQL_HOST,
+    // user: process.env.MYSQL_USER,
+    // password: process.env.MYSQL_PASSWORD,
+   // process.env.MYSQL_DATABASE,
+    // port: process.env.PORT
+    host: "localhost",
+    user: "root",
+    password: "T50226",
+    database: "mydb"// process.env.MYSQL_DATABASE,
+    // port: process.env.PORT
 });
 function createTables() {
     con.connect(function (err) {
@@ -56,7 +61,7 @@ function createTables() {
 }
 
 // createDb();
-createTables();
+//createTables();
 const postsData = [
     {
         userId: 1,
@@ -255,13 +260,13 @@ const todosData = [
     { userId: 30,title: "nemo perspiciatis repellat ut dolor libero commodi blanditiis omnis", completed: true }
   ];
   const usersData = [
-    { name: "John Doe", username: "john_doe", email: "john.doe@example.com", street: "123 Main Street", city: "New York", zipcode: "10001", phone: "555-1234", website: "johndoe.com", companyName: "Doe Corp" },
-    { name: "Jane Smith", username: "jane_smith", email: "jane.smith@example.com", street: "456 Elm Street", city: "Los Angeles", zipcode: "90001", phone: "555-5678", website: "janesmith.com", companyName: "Smith Inc" },
-    { name: "David Brown", username: "david_brown", email: "david.brown@example.com", street: "789 Oak Street", city: "Chicago", zipcode: "60601", phone: "555-9101", website: "davidbrown.com", companyName: "Brown Co" },
-    { name: "Sarah Johnson", username: "sarah_johnson", email: "sarah.johnson@example.com", street: "321 Maple Street", city: "Houston", zipcode: "77001", phone: "555-1122", website: "sarahjohnson.com", companyName: "Johnson Enterprises" },
-    { name: "Michael Williams", username: "michael_williams", email: "michael.williams@example.com", street: "654 Pine Street", city: "Philadelphia", zipcode: "19019", phone: "555-3344", website: "michaelwilliams.com", companyName: "Williams Ltd" },
-    { name: "Emily Brown", username: "emily_brown", email: "emily.brown@example.com", street: "987 Cedar Street", city: "Phoenix", zipcode: "85001", phone: "555-5566", website: "emilybrown.com", companyName: "Brown Enterprises" },
-    { name: "Daniel Miller", username: "daniel_miller", email: "daniel.miller@example.com", street: "741 Birch Street", city: "San Antonio", zipcode: "78201", phone: "555-7788", website: "danielmiller.com", companyName: "Miller Co" },
+    { name: "John Doe", username: "john", email: "john.doe@example.com", street: "123 Main Street", city: "New York", zipcode: "10001", phone: "555-1234", website: "johndoe.com", companyName: "Doe Corp" },
+    { name: "Jane Smith", username: "jane", email: "jane.smith@example.com", street: "456 Elm Street", city: "Los Angeles", zipcode: "90001", phone: "555-5678", website: "janesmith.com", companyName: "Smith Inc" },
+    { name: "David Brown", username: "david", email: "david.brown@example.com", street: "789 Oak Street", city: "Chicago", zipcode: "60601", phone: "555-9101", website: "davidbrown.com", companyName: "Brown Co" },
+    { name: "Sarah Johnson", username: "sarah", email: "sarah.johnson@example.com", street: "321 Maple Street", city: "Houston", zipcode: "77001", phone: "555-1122", website: "sarahjohnson.com", companyName: "Johnson Enterprises" },
+    { name: "Michael Williams", username: "michael", email: "michael.williams@example.com", street: "654 Pine Street", city: "Philadelphia", zipcode: "19019", phone: "555-3344", website: "michaelwilliams.com", companyName: "Williams Ltd" },
+    { name: "Emily Brown", username: "emily", email: "emily.brown@example.com", street: "987 Cedar Street", city: "Phoenix", zipcode: "85001", phone: "555-5566", website: "emilybrown.com", companyName: "Brown Enterprises" },
+    { name: "Daniel Miller", username: "daniel", email: "daniel.miller@example.com", street: "741 Birch Street", city: "San Antonio", zipcode: "78201", phone: "555-7788", website: "danielmiller.com", companyName: "Miller Co" },
     { name: "Olivia Davis", username: "olivia_davis", email: "olivia.davis@example.com", street: "852 Walnut Street", city: "San Diego", zipcode: "92101", phone: "555-9900", website: "oliviadavis.com", companyName: "Davis Inc" },
     { name: "William Wilson", username: "william_wilson", email: "william.wilson@example.com", street: "963 Cherry Street", city: "Dallas", zipcode: "75201", phone: "555-1122", website: "williamwilson.com", companyName: "Wilson Enterprises" },
     { name: "Isabella Taylor", username: "isabella_taylor", email: "isabella.taylor@example.com", street: "159 Peach Street", city: "San Jose", zipcode: "95101", phone: "555-3344", website: "isabellataylor.com", companyName: "Taylor Ltd" },
@@ -272,11 +277,9 @@ const todosData = [
     { name: "Lisa Smith", username: "lisa_smith", email: "lisa.smith@example.com", street: "678 Peach Street", city: "San Jose", zipcode: "95101", phone: "555-3344", website: "lisasmith.com", companyName: "Smith Inc" },
     { name: "Sarah Smith", username: "sarah_smith", email: "sarah.smith@example.com", street: "789 Oak Street", city: "Houston", zipcode: "77001", phone: "555-1122", website: "sarahsmith.com", companyName: "Smith Inc" }
   ];
-
-  
 function insertData() {
+    
     // Create new posts
-
     // for (let i = 0; i < postsData.length; i++) {
     //     const postData = postsData[i];
     //     var createPostsQuery = "INSERT INTO posts ( userId,  title, body) VALUES ( ?, ?, ?)";
@@ -307,23 +310,24 @@ function insertData() {
     //     });
     // }
     // Create new users
-    // for (let i = 0; i < usersData.length; i++) {
-    //     const user = usersData[i];
-    //     var createUsersQuery = "INSERT INTO users (name, username, email, street, city, zipcode, phone, companyName) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-    //     var values = [user.name, user.username, user.email, user.street, user.city, user.zipcode, user.phone, user.companyName];
-    //     con.query(createUsersQuery, values, function (err, result) {
-    //         if (err) throw err;
-    //         console.log("User " + (i + 1) + " inserted");
-    //     });
-    // }
+    for (let i = 0; i < usersData.length; i++) {
+        const user = usersData[i];
+        var createUsersQuery = "INSERT INTO users (name, username, email, street, city, zipcode, phone, companyName) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        var values = [user.name, user.username, user.email, user.street, user.city, user.zipcode, user.phone, user.companyName];
+        con.query(createUsersQuery, values, function (err, result) {
+            if (err) throw err;
+            console.log("User " + (i + 1) + " inserted");
+        });
+    }
+
     for (let i = 0; i < usersData.length; i++) {
         const user = usersData[i];
         var createUsersQuery = "INSERT INTO passwords (username,password) VALUES (?, ?)";
-        var values = [user.username,user.password];
+        var values = [user.username,user.website];
         con.query(createUsersQuery, values, function (err, result) {
             if (err) throw err;
             console.log("User " + (i + 1) + " inserted");
         });
     }
 }
-// insertData();
+ insertData();
