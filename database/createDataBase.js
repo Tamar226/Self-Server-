@@ -4,24 +4,18 @@ dotenv.config();
 
 async function createDb() {
     const connection = mysql.createConnection({
-        host: "Localhost", 
-        user: "root", 
-        password:"T50226"
+        host: "Localhost",
+        user: "root",
+        password: "T50226"
     });
     await connection.promise().query('CREATE DATABASE newDB');
 };
 
 var con = mysql.createConnection({
-    // host: process.env.MYSQL_HOST,
-    // user: process.env.MYSQL_USER,
-    // password: process.env.MYSQL_PASSWORD,
-   // process.env.MYSQL_DATABASE,
-    // port: process.env.PORT
     host: "localhost",
     user: "root",
     password: "T50226",
-    database: "mydb"// process.env.MYSQL_DATABASE,
-    // port: process.env.PORT
+    database: "mydb"
 });
 function createTables() {
     con.connect(function (err) {
@@ -51,12 +45,12 @@ function createTables() {
             if (err) throw err;
             console.log("Table created!");
         });
-         //create password table
-         var createPasswordTableQuery = "CREATE TABLE IF NOT EXISTS passwords (username VARCHAR(255) NOT NULL,password VARCHAR(255) NOT NULL,PRIMARY KEY (username))";
-         con.query(createPasswordTableQuery, function (err, result) {
-             if (err) throw err;
-             console.log("Table created!");
-         });
+        //create password table
+        var createPasswordTableQuery = "CREATE TABLE IF NOT EXISTS passwords (username VARCHAR(255) NOT NULL,password VARCHAR(255) NOT NULL,PRIMARY KEY (username))";
+        con.query(createPasswordTableQuery, function (err, result) {
+            if (err) throw err;
+            console.log("Table created!");
+        });
     });
 }
 
@@ -228,38 +222,38 @@ const commentsData = [
     },
 ];
 const todosData = [
-    { userId: 1,  title: "delectus aut autem", completed: false },
+    { userId: 1, title: "delectus aut autem", completed: false },
     { userId: 2, title: "quis ut nam facilis et officia qui", completed: false },
     { userId: 3, title: "fugiat veniam minus", completed: false },
     { userId: 4, title: "et porro tempora", completed: true },
     { userId: 5, title: "laboriosam mollitia et enim quasi adipisci quia provident illum", completed: false },
-    { userId: 6,  title: "qui ullam ratione quibusdam voluptatem quia omnis", completed: false },
+    { userId: 6, title: "qui ullam ratione quibusdam voluptatem quia omnis", completed: false },
     { userId: 7, title: "illo expedita consequatur quia in", completed: false },
     { userId: 8, title: "quo adipisci enim quam ut ab", completed: true },
-    { userId: 9,  title: "molestiae perspiciatis ipsa", completed: false },
-    { userId: 10,  title: "illo est ratione doloremque quia maiores aut", completed: true },
-    { userId: 11,  title: "vero rerum temporibus dolor", completed: true },
+    { userId: 9, title: "molestiae perspiciatis ipsa", completed: false },
+    { userId: 10, title: "illo est ratione doloremque quia maiores aut", completed: true },
+    { userId: 11, title: "vero rerum temporibus dolor", completed: true },
     { userId: 12, title: "ipsa repellendus fugit nisi", completed: true },
-    { userId: 13,  title: "et doloremque nulla", completed: false },
-    { userId: 14,  title: "repellendus sunt dolores architecto voluptatum", completed: true },
+    { userId: 13, title: "et doloremque nulla", completed: false },
+    { userId: 14, title: "repellendus sunt dolores architecto voluptatum", completed: true },
     { userId: 15, title: "ab voluptatum amet voluptas", completed: true },
-    { userId: 16,  title: "accusamus eos facilis sint et aut voluptatem", completed: true },
+    { userId: 16, title: "accusamus eos facilis sint et aut voluptatem", completed: true },
     { userId: 17, title: "quo laboriosam deleniti aut qui", completed: true },
-    { userId: 18,  title: "dolorum est consequatur ea mollitia in culpa", completed: false },
-    { userId: 19,title: "molestiae ipsa aut voluptatibus pariatur dolor nihil", completed: true },
-    { userId: 20,  title: "ullam nobis libero sapiente ad optio sint", completed: true },
-    { userId: 21,  title: "suscipit repellat esse quibusdam voluptatem incidunt", completed: false },
-    { userId: 22,  title: "distinctio vitae autem nihil ut molestias quo", completed: true },
+    { userId: 18, title: "dolorum est consequatur ea mollitia in culpa", completed: false },
+    { userId: 19, title: "molestiae ipsa aut voluptatibus pariatur dolor nihil", completed: true },
+    { userId: 20, title: "ullam nobis libero sapiente ad optio sint", completed: true },
+    { userId: 21, title: "suscipit repellat esse quibusdam voluptatem incidunt", completed: false },
+    { userId: 22, title: "distinctio vitae autem nihil ut molestias quo", completed: true },
     { userId: 23, title: "et itaque necessitatibus maxime molestiae qui quas velit", completed: false },
-    { userId: 24,  title: "adipisci non ad dicta qui amet quaerat doloribus ea", completed: false },
-    { userId: 25,  title: "voluptas quo tenetur perspiciatis explicabo natus", completed: true },
-    { userId: 26,title: "aliquam aut quasi", completed: true },
-    { userId: 27,  title: "veritatis pariatur delectus", completed: true },
+    { userId: 24, title: "adipisci non ad dicta qui amet quaerat doloribus ea", completed: false },
+    { userId: 25, title: "voluptas quo tenetur perspiciatis explicabo natus", completed: true },
+    { userId: 26, title: "aliquam aut quasi", completed: true },
+    { userId: 27, title: "veritatis pariatur delectus", completed: true },
     { userId: 28, title: "nesciunt totam sit blanditiis sit", completed: false },
-    { userId: 29,  title: "laborum aut in quam", completed: false },
-    { userId: 30,title: "nemo perspiciatis repellat ut dolor libero commodi blanditiis omnis", completed: true }
-  ];
-  const usersData = [
+    { userId: 29, title: "laborum aut in quam", completed: false },
+    { userId: 30, title: "nemo perspiciatis repellat ut dolor libero commodi blanditiis omnis", completed: true }
+];
+const usersData = [
     { name: "John Doe", username: "john", email: "john.doe@example.com", street: "123 Main Street", city: "New York", zipcode: "10001", phone: "555-1234", website: "johndoe.com", companyName: "Doe Corp" },
     { name: "Jane Smith", username: "jane", email: "jane.smith@example.com", street: "456 Elm Street", city: "Los Angeles", zipcode: "90001", phone: "555-5678", website: "janesmith.com", companyName: "Smith Inc" },
     { name: "David Brown", username: "david", email: "david.brown@example.com", street: "789 Oak Street", city: "Chicago", zipcode: "60601", phone: "555-9101", website: "davidbrown.com", companyName: "Brown Co" },
@@ -276,9 +270,9 @@ const todosData = [
     { name: "Kim Smith", username: "kim_smith", email: "kim.smith@example.com", street: "567 Cherry Street", city: "Dallas", zipcode: "75201", phone: "555-1122", website: "kimsmith.com", companyName: "Smith Inc" },
     { name: "Lisa Smith", username: "lisa_smith", email: "lisa.smith@example.com", street: "678 Peach Street", city: "San Jose", zipcode: "95101", phone: "555-3344", website: "lisasmith.com", companyName: "Smith Inc" },
     { name: "Sarah Smith", username: "sarah_smith", email: "sarah.smith@example.com", street: "789 Oak Street", city: "Houston", zipcode: "77001", phone: "555-1122", website: "sarahsmith.com", companyName: "Smith Inc" }
-  ];
+];
 function insertData() {
-    
+
     // Create new posts
     // for (let i = 0; i < postsData.length; i++) {
     //     const postData = postsData[i];
@@ -300,15 +294,15 @@ function insertData() {
     //     });
     // }
     // Create new todos
-    // for (let i = 0; i < todosData.length; i++) {
-    //     const todo = todosData[i];
-    //     var createTodosQuery = "INSERT INTO todos (userId,  title, completed) VALUES ( ?, ?, ?)";
-    //     var values = [todo.userId, todo.title, todo.completed];
-    //     con.query(createTodosQuery, values, function (err, result) {
-    //         if (err) throw err;
-    //         console.log("Todo " + (i + 1) + " inserted");
-    //     });
-    // }
+    for (let i = 0; i < todosData.length; i++) {
+        const todo = todosData[i];
+        var createTodosQuery = "INSERT INTO todos (userId,  title, completed) VALUES ( ?, ?, ?)";
+        var values = [todo.userId, todo.title, todo.completed];
+        con.query(createTodosQuery, values, function (err, result) {
+            if (err) throw err;
+            console.log("Todo " + (i + 1) + " inserted");
+        });
+    }
     // Create new users
     for (let i = 0; i < usersData.length; i++) {
         const user = usersData[i];
@@ -323,11 +317,11 @@ function insertData() {
     for (let i = 0; i < usersData.length; i++) {
         const user = usersData[i];
         var createUsersQuery = "INSERT INTO passwords (username,password) VALUES (?, ?)";
-        var values = [user.username,user.website];
+        var values = [user.username, user.website];
         con.query(createUsersQuery, values, function (err, result) {
             if (err) throw err;
             console.log("User " + (i + 1) + " inserted");
         });
     }
 }
- insertData();
+insertData();

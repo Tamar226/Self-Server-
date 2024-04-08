@@ -9,16 +9,16 @@ var con = mysql.createConnection({
 
 async function getAllComments() {
     const result = await con.promise().query('SELECT * FROM comments');
-    return prepareResults(false,0,0,result);
+    return prepareResults(false, 0, 0, result);
 }
 
-async function getCommentById(commentId) {
+async function getCommentById(postId) {
     try {
-        const result = await con.promise().query('SELECT * FROM comments WHERE id = ?', [commentId]);
+        const result = await con.promise().query('SELECT * FROM comments WHERE postId = ?', [postId]);
         if (result.length === 0) {
-            throw new Error(`Comment with ID ${commentId} not found`);
+            throw new Error(`Comment with ID ${postId} not found`);
         }
-        return prepareResult(false, 0, 0, result);
+        return prepareResult(false, 0, 0, result[0]);
     } catch (error) {
         throw error;
     }

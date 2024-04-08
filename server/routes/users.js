@@ -60,16 +60,16 @@ router.get('/:userId/:typeInformetion', async (req, res) => {
         }
         if (result.hasError) {
             res.status(404).send('Error');
+            return;
         }
         else {
-            res.status(200).send([`success get  ${type} by id: ${userId}`, result.data]);
+            res.status(200).send(result.data);
+            return;
         }
     } catch (error) {
-        res.status(500).send('Internal Server Error');
+        return res.status(500).send('Internal Server Error');
     }
 });
-
-
 
 router.put('/:userId', async (req, res) => {
     const userId = req.params.userId;
@@ -107,7 +107,6 @@ router.post('/register', async (req, res) => {
     try {
         const find = await usersDataBase.getUserByUsername(newUser.username);
         if (find.affectedRows != 0) {
-            console.log("ll");
         }
         const resultRegister = await usersDataBase.addUser(newUser);
         if (resultRegister.insertId > 0) {
@@ -120,21 +119,15 @@ router.post('/register', async (req, res) => {
     }
 });
 
-
 router.post('/login', async (req, res) => {
     const userName = req.body.username;
     const password = req.body.password;
     try {
-        console.log("before");
         const result = await usersDataBase.getUserDetails(userName, password);
-        console.log(result);
-        console.log("after");
-        console.log("result: " + JSON.stringify(result));
         if (result.hasError) {
             res.status(404).send('Error');
         }
         else {
-            console.log("re");
             res.status(200).send(JSON.stringify(result));
         }
     } catch (error) {

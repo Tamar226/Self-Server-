@@ -12,10 +12,10 @@ router.get('/', async (req, res) => {
             res.status(404).send('Error');
         }
         else {
-            res.status(200).send(['success get all posts',result]);
+            res.status(200).send(['success get all posts', result]);
         }
     } catch (error) {
-         res.status(500).send('Internal Server Error');
+        res.status(500).send('Internal Server Error');
     }
 });
 
@@ -27,7 +27,7 @@ router.get('/:postId', async (req, res) => {
             res.status(404).send('Error');
         }
         else {
-            res.status(200).send([`success get post by id: ${postId}`,result]);
+            res.status(200).send(result);
         }
     } catch (error) {
         res.status(500).send('Internal Server Error');
@@ -40,7 +40,8 @@ router.post('/', async (req, res) => {
     try {
         const result = await postsDataBase.addPost(newPost);
         if (result.insertId > 0) {
-            res.status(201).send(`Posts added with ID: ${result.insertId}`);
+            const insertPost = await postsDataBase.getPostById(result.insertId);
+            res.status(200).send(insertPost.data);
         } else {
             res.status(404).send('Error adding post');
         }
@@ -49,7 +50,6 @@ router.post('/', async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
-
 
 router.put('/:postId', async (req, res) => {
     const postId = req.params.postId;

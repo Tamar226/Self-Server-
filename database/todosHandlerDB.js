@@ -2,11 +2,6 @@ const mysql = require('mysql2');
 
 
 var con = mysql.createConnection({
-    // host: process.env.MYSQL_HOST,
-    // user: process.env.MYSQL_USER,
-    // password: process.env.MYSQL_PASSWORD,
-    // database: process.env.MYSQL_DATABASE,
-    // port: process.env.PORT
     host: "localhost",
     user: "root",
     password: "T50226",
@@ -15,18 +10,17 @@ var con = mysql.createConnection({
 
 async function getAllTodos() {
     const result = await con.promise().query('SELECT * FROM todos');
-    return prepareResults(false,0,0,result);
+    return prepareResults(false, 0, 0, result);
 }
 
-async function getTodoById(todoId) {
+async function getTodoById(userId) {
     try {
-        console.log('hiiii');
-        console.log(todoId);
-        const result = await con.promise().query('SELECT * FROM todos WHERE id = ?', [todoId]);
+        const result = await con.promise().query('SELECT * FROM todos WHERE userId = ?', [userId]);
         if (result.length === 0) {
-            throw new Error(`Todo with ID ${todoId} not found`);
+            throw new Error(`Todo with ID ${userId} not found`);
         }
-        return prepareResult(false,0,0,result[0]);
+        return prepareResult(false, 0, 0, result[0]);
+
     } catch (error) {
         throw error;
     }
@@ -34,6 +28,11 @@ async function getTodoById(todoId) {
 
 async function addTodo(newTodo) {
     try {
+        if (newTodo.completed) {
+            newTodo.completed = 1;
+        }
+        else
+            newTodo.completed = 0;
         const result = await con.promise().query(`INSERT INTO todos (userID, title,completed) VALUES ('${newTodo.userId}', '${newTodo.title}','${newTodo.completed}')`);
         if (result[0].insertId > 0) {
             return prepareResult(false, 0, result[0].insertId)
@@ -55,7 +54,7 @@ async function updateTodo(todoId, updatedTodoData) {
         else {
             return prepareResult(true, 0, 0);
         }
- 
+
     } catch (error) {
         throw error;
     }

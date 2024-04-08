@@ -1,29 +1,24 @@
 const mysql = require('mysql2');
 
 var con = mysql.createConnection({
-    // host: process.env.MYSQL_HOST,
-    // user: process.env.MYSQL_USER,
-    // password: process.env.MYSQL_PASSWORD,
-    // database: process.env.MYSQL_DATABASE,
+
     host: "localhost",
     user: "root",
     password: "T50226",
     database: "mydb"
-    // port: process.env.PORT
 });
 
 async function getAllPosts() {
     const result = await con.promise().query('SELECT * FROM posts');
-    return prepareResults(false,0,0,result);
+    return prepareResults(false, 0, 0, result);
 }
-async function getPostById(postId) {
+async function getPostById(userId) {
     try {
-        console.log(postId);
-        const result = await con.promise().query('SELECT * FROM posts WHERE id = ' + postId);
+        const result = await con.promise().query('SELECT * FROM posts WHERE userId = ' + userId);
         if (result.length === 0) {
-            throw new Error(`post with ID ${postId} not found`);
+            throw new Error(`post with ID ${userId} not found`);
         }
-        return prepareResult(false,0,0,result[0]);
+        return prepareResult(false, 0, 0, result[0]);
     } catch (error) {
         throw error;
     }
@@ -45,9 +40,7 @@ async function addPost(newPost) {
 
 async function updatePost(postId, updatedPostData) {
     try {
-        console.log('huhuh');
         const result = await con.promise().query('UPDATE posts SET ? WHERE id = ?', [updatedPostData, postId]);
-        console.log(result[0].affectedRows);
         if (result[0].affectedRows > 0) {
             return prepareResult(false, result[0].affectedRows, 0);
         }
@@ -63,9 +56,7 @@ async function deletePost(postId) {
     try {
         const result = await con.promise().query('DELETE FROM posts WHERE id = ?', postId);
         if (result[0].affectedRows > 0) {
-            console.log(result[0].affectedRows);
             return prepareResult(false, result[0].affectedRows, 0)
-
         } else {
             return prepareResult(true, 0, 0);
         }
@@ -82,9 +73,10 @@ function prepareResult(hasErrorT = true, affectedRowsT = 0, insertIdT = -1, data
     }
     return resultdata;
 }
-module.exports = { 
+module.exports = {
     getAllPosts,
-    getPostById, 
-    addPost, 
-    updatePost, 
-    deletePost };
+    getPostById,
+    addPost,
+    updatePost,
+    deletePost
+};

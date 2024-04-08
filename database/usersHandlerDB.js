@@ -1,11 +1,6 @@
 const mysql = require('mysql2');
 
 var con = mysql.createConnection({
-    // host: process.env.MYSQL_HOST,
-    // user: process.env.MYSQL_USER,
-    // password: process.env.MYSQL_PASSWORD,
-    // database: process.env.MYSQL_DATABASE,
-    // port: process.env.PORT
     host: "localhost",
     user: "root",
     password: "T50226",
@@ -72,21 +67,17 @@ async function deleteUser(userId) {
 }
 
 async function getUserByUsername(username) {
-    console.log(username);
     return await con.promise().query('SELECT * FROM users WHERE username =?', username);
 }
 async function getUserDetails(userName, password) {
     try {
         let query = `SELECT username FROM passwords WHERE username = '${userName}' AND password = '${password}'`;
         const result = await con.promise().query(query);
-        console.log('result '+result);
         if (result.length === 0) {
-            console.log("result[0][0].username " + result[0][0]?.username);
             throw new Error(`User not found`);
         }
         const userDetails = await getUserByUsername(result[0][0].username)
-        console.log("hiiii "+userDetails[0][0]);
-        return prepareResult(false, result[0].affectedRows,0, userDetails[0][0])
+        return prepareResult(false, result[0].affectedRows, 0, userDetails[0][0])
     } catch (error) {
         console.error(error);
         throw error;
